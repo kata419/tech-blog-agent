@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import { PlannerService } from "./planner.service";
+import { pipelineContext } from "../../pipeline/pipeline-context";
 
 export class PlannerAgent {
 
@@ -9,8 +10,7 @@ export class PlannerAgent {
 
         console.log("\n🧠 Planner Agent Started\n");
 
-        const research =
-            await fs.readJson("output/reports/research-report.json");
+        const research = pipelineContext.articles;
 
         const existing =
             await this.plannerService.getExistingTopics();
@@ -43,7 +43,7 @@ export class PlannerAgent {
                 spaces: 2
             }
         );
-
+        pipelineContext.plannedArticles = plan;
         console.log(`✅ ${plan.length} articles planned`);
 
     }

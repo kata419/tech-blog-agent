@@ -1,15 +1,13 @@
 {
   "title": "Demystifying A2UI: How to Make AI Agents “Speak UI” in Your App",
-  "slug": "demystifying-a2ui-ai-agents-speak-ui-app",
-  "description": "Explore A2UI, a groundbreaking approach enabling AI agents to understand and interact directly with your application's user interface. This article demystifies the core concepts, explains how AI agents can 'speak UI' to perform actions, generate insights, and enhance user experience, and provides practical steps for integration into your projects.",
+  "slug": "demystifying-a2ui-how-to-make-ai-agents-speak-ui-in-your-app",
+  "description": "Dive into A2UI, a groundbreaking framework that empowers AI agents to understand and interact directly with your application's user interface. Learn the concepts, tools, and techniques to build AI-driven experiences where agents can 'speak UI,' automating tasks and enhancing user interaction within your apps.",
   "keywords": [
     "A2UI",
     "AI agents",
-    "UI interaction",
-    "Generative UI",
-    "Frontend AI",
-    "Application development",
-    "AI integration"
+    "UI automation",
+    "frontend AI",
+    "LLM integration"
   ],
   "category": "Frontend",
   "author": "Satish"
