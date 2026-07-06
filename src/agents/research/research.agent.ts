@@ -1,6 +1,6 @@
-import { FEEDS } from "../config/feeds";
-import { fetchFeed } from "../services/rss.service";
-import { Logger } from "../utils/logger";
+import { FEEDS } from "../../config/feeds";
+import { fetchFeed } from "./rss.service";
+import { Logger } from "../../shared/logger";
 import fs from "fs-extra";
 
 export class ResearchAgent {

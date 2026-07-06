@@ -1,5 +1,5 @@
 import Parser from "rss-parser";
-import { Article } from "../models/article.model";
+import { Article } from "../../models/article.model";
 
 const parser = new Parser();
 

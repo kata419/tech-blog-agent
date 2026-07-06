@@ -1,4 +1,4 @@
-import { ResearchAgent } from "./agents/research.agent";
+import { ResearchAgent } from "./agents/research/research.agent";
 
 async function main() {
 
