@@ -1,10 +1,10 @@
 import fs from "fs-extra";
 import { WriterService } from "./writer.service";
-
+import { HtmlService } from "./html.service";
 export class WriterAgent {
 
     private writer = new WriterService();
-
+    private htmlService = new HtmlService();
     async run() {
 
         console.log("\n✍️ Writer Agent Started\n");
@@ -34,10 +34,25 @@ export class WriterAgent {
             .replace(/[^\w]/g, "-")
             .toLowerCase();
 
+        const markdownPath =
+            `output/articles/markdown/${fileName}.md`;
+
         await fs.writeFile(
-            `output/articles/markdown/${fileName}.md`,
+            markdownPath,
             markdown
         );
+
+        console.log("✅ Markdown created");
+
+        const htmlPath =
+            `output/articles/html/${fileName}.html`;
+
+        await this.htmlService.convert(
+            markdownPath,
+            htmlPath
+        );
+
+        console.log("✅ HTML created");
 
         console.log("✅ Markdown created");
 
