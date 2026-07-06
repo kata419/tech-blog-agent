@@ -1,6 +1,7 @@
 import { ResearchAgent } from "./agents/research/research.agent";
 import { PlannerAgent } from "./agents/planner/planner.agent";
 import { WriterAgent } from "./agents/writer/writer.agent";
+import { SeoAgent } from "./agents/seo/seo.agent";
 
 async function main() {
 
@@ -17,6 +18,8 @@ async function main() {
     const writer = new WriterAgent();
     await writer.run();
 
+    const seo = new SeoAgent();
+    await seo.run();
 }
 
 main();
