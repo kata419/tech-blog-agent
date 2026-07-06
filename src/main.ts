@@ -1,3 +1,15 @@
-console.log("=================================");
-console.log("🚀 Tech Blog AI Agent Started");
-console.log("=================================");
+import { ResearchAgent } from "./agents/research.agent";
+
+async function main() {
+
+  console.log("==================================");
+  console.log("🚀 Tech Blog AI Agent");
+  console.log("==================================");
+
+  const research = new ResearchAgent();
+
+  await research.run();
+
+}
+
+main();
