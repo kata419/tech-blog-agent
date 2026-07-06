@@ -6,11 +6,13 @@ const parser = new Parser();
 export async function fetchFeed(url: string): Promise<Article[]> {
   const feed = await parser.parseURL(url);
 
-  return (feed.items || []).map(item => ({
-    source: feed.title ?? "Unknown",
-    title: item.title ?? "",
-    link: item.link ?? "",
-    published: item.pubDate ?? "",
-    categories: item.categories ?? []
-  }));
+  return (feed.items || [])
+    .slice(0, 10)
+    .map(item => ({
+      source: feed.title ?? "Unknown",
+      title: item.title ?? "",
+      link: item.link ?? "",
+      published: item.pubDate ?? "",
+      categories: item.categories ?? []
+    }));
 }
