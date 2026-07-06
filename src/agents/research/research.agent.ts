@@ -2,6 +2,7 @@ import { FEEDS } from "../../config/feeds";
 import { fetchFeed } from "./rss.service";
 import { Logger } from "../../shared/logger";
 import fs from "fs-extra";
+import { pipelineContext } from "../../pipeline/pipeline-context";
 
 export class ResearchAgent {
 
@@ -35,7 +36,7 @@ export class ResearchAgent {
       (article, index, self) =>
         index === self.findIndex(a => a.link === article.link)
     );
-
+    pipelineContext.articles = articles;
     await fs.ensureDir("output/reports");
 
     await fs.writeJson(
