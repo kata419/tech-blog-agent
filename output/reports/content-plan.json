@@ -1,5 +1,11 @@
 [
   {
+    "title": "Community Engineering, Agentic Coding, and Real-User Component Testing ️",
+    "source": "Angular Blog - Medium",
+    "priority": "HIGH",
+    "status": "TODO"
+  },
+  {
     "title": "Demystifying A2UI: How to Make AI Agents “Speak UI” in Your App",
     "source": "Angular Blog - Medium",
     "priority": "HIGH",
@@ -54,8 +60,8 @@
     "status": "TODO"
   },
   {
-    "title": "Modernize Your Workflow: AI Tooling, Deferrable Views, and the Era of Forms! ️",
-    "source": "Angular Blog - Medium",
+    "title": "Announcing TypeScript 7.0",
+    "source": "TypeScript",
     "priority": "HIGH",
     "status": "TODO"
   },
@@ -114,8 +120,8 @@
     "status": "TODO"
   },
   {
-    "title": "Announcing TypeScript Native Previews",
-    "source": "TypeScript",
+    "title": "Node.js 26.5.0 (Current)",
+    "source": "Node.js Blog",
     "priority": "HIGH",
     "status": "TODO"
   },
@@ -169,12 +175,6 @@
   },
   {
     "title": "Node.js 24.16.0 (LTS)",
-    "source": "Node.js Blog",
-    "priority": "HIGH",
-    "status": "TODO"
-  },
-  {
-    "title": "Node.js 26.2.0 (Current)",
     "source": "Node.js Blog",
     "priority": "HIGH",
     "status": "TODO"

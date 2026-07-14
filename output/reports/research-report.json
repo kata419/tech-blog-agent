@@ -1,6 +1,16 @@
 [
   {
     "source": "Angular Blog - Medium",
+    "title": "Community Engineering, Agentic Coding, and Real-User Component Testing ️",
+    "link": "https://blog.angular.dev/community-engineering-agentic-coding-and-real-user-component-testing-%EF%B8%8F-15c768142043?source=rss----447683c3d9a3---4",
+    "published": "Tue, 07 Jul 2026 15:47:29 GMT",
+    "categories": [
+      "angular-weekly",
+      "angular"
+    ]
+  },
+  {
+    "source": "Angular Blog - Medium",
     "title": "Demystifying A2UI: How to Make AI Agents “Speak UI” in Your App",
     "link": "https://blog.angular.dev/demystifying-a2ui-how-to-make-ai-agents-speak-ui-in-your-app-e1ffea2303bd?source=rss----447683c3d9a3---4",
     "published": "Fri, 26 Jun 2026 09:01:02 GMT",
@@ -99,14 +109,12 @@
     ]
   },
   {
-    "source": "Angular Blog - Medium",
-    "title": "Modernize Your Workflow: AI Tooling, Deferrable Views, and the Era of Forms! ️",
-    "link": "https://blog.angular.dev/modernize-your-workflow-ai-tooling-deferrable-views-and-the-era-of-forms-%EF%B8%8F-7aa1c1cf9550?source=rss----447683c3d9a3---4",
-    "published": "Fri, 13 Mar 2026 15:16:20 GMT",
+    "source": "TypeScript",
+    "title": "Announcing TypeScript 7.0",
+    "link": "https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/",
+    "published": "Wed, 08 Jul 2026 15:58:29 +0000",
     "categories": [
-      "angular",
-      "angular-weekly-newsleter",
-      "angularcommunity"
+      "TypeScript"
     ]
   },
   {
@@ -191,13 +199,11 @@
     ]
   },
   {
-    "source": "TypeScript",
-    "title": "Announcing TypeScript Native Previews",
-    "link": "https://devblogs.microsoft.com/typescript/announcing-typescript-native-previews/",
-    "published": "Thu, 22 May 2025 15:04:21 +0000",
-    "categories": [
-      "TypeScript"
-    ]
+    "source": "Node.js Blog",
+    "title": "Node.js 26.5.0 (Current)",
+    "link": "https://nodejs.org/en/blog/release/v26.5.0",
+    "published": "Wed, 08 Jul 2026 12:00:35 GMT",
+    "categories": []
   },
   {
     "source": "Node.js Blog",
@@ -260,13 +266,6 @@
     "title": "Node.js 24.16.0 (LTS)",
     "link": "https://nodejs.org/en/blog/release/v24.16.0",
     "published": "Thu, 21 May 2026 13:25:43 GMT",
-    "categories": []
-  },
-  {
-    "source": "Node.js Blog",
-    "title": "Node.js 26.2.0 (Current)",
-    "link": "https://nodejs.org/en/blog/release/v26.2.0",
-    "published": "Wed, 20 May 2026 13:03:28 GMT",
     "categories": []
   },
   {

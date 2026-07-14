@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import { WriterService } from "./writer.service";
 import { HtmlService } from "./html.service";
+import { pipelineContext } from "../../pipeline/pipeline-context";
 export class WriterAgent {
 
     private writer = new WriterService();
@@ -9,7 +10,7 @@ export class WriterAgent {
 
         console.log("\n✍️ Writer Agent Started\n");
 
-        const plan = await fs.readJson("output/reports/content-plan.json");
+        const plan = pipelineContext.plannedArticles;
 
         const nextArticle = plan.find(
             (x: any) => x.status === "TODO"
@@ -27,7 +28,8 @@ export class WriterAgent {
 
         const markdown =
             await this.writer.generateArticle(nextArticle.title);
-
+        pipelineContext.currentArticle = nextArticle;
+        pipelineContext.markdown = markdown;
         await fs.ensureDir("output/articles/markdown");
 
         const fileName = nextArticle.title
@@ -52,10 +54,11 @@ export class WriterAgent {
             htmlPath
         );
 
+        const html = await fs.readFile(htmlPath, "utf8");
+
+        pipelineContext.html = html;
+
         console.log("✅ HTML created");
-
-        console.log("✅ Markdown created");
-
     }
 
 }
