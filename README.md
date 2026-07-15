@@ -190,34 +190,49 @@ No manual authentication is required again unless the refresh token becomes inva
 
 # GitHub Actions
 
-A workflow is available at:
+A production-ready workflow is available at:
 
 ```
 .github/workflows/weekly-blog.yml
 ```
 
-Features:
+## GitHub Secrets
 
-- Runs every Sunday at 06:00 UTC
-- Manual execution supported
-- Executes complete pipeline
-- Publishes Blogger drafts
-- Uploads reports as workflow artifacts
-- Uses dependency caching
+Add the following secrets in your GitHub repository settings under Settings → Secrets and variables → Actions:
 
-Required GitHub Secrets:
+- `GEMINI_API_KEY`
+- `BLOGGER_BLOG_ID`
+- `BLOGGER_CLIENT_ID`
+- `BLOGGER_CLIENT_SECRET`
+- `BLOGGER_REFRESH_TOKEN`
 
-```
-GEMINI_API_KEY
+These values are injected into the workflow at runtime and are never printed in the logs.
 
-BLOGGER_BLOG_ID
+## How to Manually Run the Workflow
 
-BLOGGER_CLIENT_ID
+1. Open the GitHub repository.
+2. Go to the Actions tab.
+3. Select the "Weekly Blog Pipeline" workflow.
+4. Click "Run workflow".
+5. Choose the branch and start the run.
 
-BLOGGER_CLIENT_SECRET
+## How Scheduled Execution Works
 
-BLOGGER_REFRESH_TOKEN
-```
+The workflow runs automatically every Sunday at 06:00 UTC using a cron schedule. It also supports manual execution with `workflow_dispatch`.
+
+## Workflow Behavior
+
+The workflow:
+
+- runs on `ubuntu-latest`
+- uses Node.js 24
+- caches npm dependencies
+- installs dependencies with `npm ci`
+- builds the project with `npm run build`
+- runs the full publishing pipeline with `npm run dev`
+- uploads `output/articles` and `output/reports` as workflow artifacts
+- fails the job if Blogger publishing reports any failed entries
+- cancels older runs when a new one starts
 
 ---
 

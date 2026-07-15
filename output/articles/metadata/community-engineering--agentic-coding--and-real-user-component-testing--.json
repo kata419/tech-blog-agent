@@ -1,10 +1,10 @@
 {
-  "title": "Agentic AI, Community Power, and Real-User Feedback for Modern Frontend Development",
-  "slug": "agentic-ai-community-power-real-user-feedback-modern-frontend-development",
-  "description": "Explore how agentic AI assists in code generation and optimization, how community engineering fosters collaboration and shared tooling, and how integrating real-user feedback directly into component testing cycles revolutionizes the development and quality assurance of frontend applications.",
+  "title": "Transforming Component Development: Community, AI, and User-Centric Testing",
+  "slug": "transforming-component-development-community-ai-user-centric-testing",
+  "description": "Explore the convergence of community engineering, agentic coding, and real-user component testing, revolutionizing how frontend components are built and validated. This approach leverages collective intelligence, AI-driven code generation, and direct user feedback to accelerate development, enhance quality, and ensure components truly meet real-world needs.",
   "keywords": [
-    "Agentic Coding",
     "Community Engineering",
+    "Agentic Coding",
     "Real-User Testing"
   ],
   "category": "Frontend",
