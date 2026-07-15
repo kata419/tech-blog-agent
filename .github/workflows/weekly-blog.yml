@@ -1,0 +1,88 @@
+name: Weekly Blog Pipeline
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-publish:
+    name: Generate and publish blog content
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+      BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+      BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+      BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+      BLOGGER_OAUTH_FILE: credentials/blogger-oauth.json
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare Blogger OAuth credentials
+        shell: bash
+        run: |
+          mkdir -p credentials
+          cat > credentials/blogger-oauth.json <<EOF
+          {
+            "installed": {
+              "client_id": "${BLOGGER_CLIENT_ID}",
+              "client_secret": "${BLOGGER_CLIENT_SECRET}",
+              "redirect_uris": ["http://localhost"]
+            }
+          }
+          EOF
+          echo "Prepared Blogger OAuth credentials file."
+          ls -la credentials
+
+      - name: Run Tech Blog agent
+        shell: bash
+        run: |
+          echo "Starting weekly blog generation and publishing pipeline..."
+          npm run dev
+          echo "Pipeline execution completed."
+
+      - name: Validate publishing results
+        if: always()
+        shell: bash
+        run: |
+          echo "Checking publish report for failures..."
+          if [ -f output/reports/blogger-publish-report.json ]; then
+            node -e "const fs=require('fs'); const path='output/reports/blogger-publish-report.json'; const data=JSON.parse(fs.readFileSync(path,'utf8')); const published=data.filter(x=>x.status==='published').length; const failed=data.filter(x=>x.status==='failed').length; const skipped=data.filter(x=>x.status==='skipped').length; console.log(JSON.stringify({published, skipped, failed, total:data.length}, null, 2)); if (failed > 0) process.exit(1);"
+          else
+            echo "Publish report was not generated." >&2
+            exit 1
+          fi
+
+      - name: Upload generated content artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tech-blog-artifacts
+          path: |
+            output/articles
+            output/reports
+          if-no-files-found: error
+
+      - name: Print workflow summary
+        if: always()
+        shell: bash
+        run: |
+          echo "Artifacts uploaded successfully."
+          find output -maxdepth 3 -type f | sort | sed -n '1,80p'

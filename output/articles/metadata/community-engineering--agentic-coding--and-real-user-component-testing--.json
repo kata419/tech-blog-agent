@@ -1,15 +1,11 @@
 {
-  "title": "Synergy in Frontend: Community Engineering, Agentic Coding, and Real-User Component Testing",
-  "slug": "synergy-frontend-community-agentic-real-user-testing",
-  "description": "Discover how community-driven development, AI-powered agentic coding, and authentic real-user component testing converge to create more robust, user-centric, and performant frontend applications. This approach leverages collaborative intelligence and direct user feedback for superior component quality and reliability.",
+  "title": "Agentic AI, Community Power, and Real-User Feedback for Modern Frontend Development",
+  "slug": "agentic-ai-community-power-real-user-feedback-modern-frontend-development",
+  "description": "Explore how agentic AI assists in code generation and optimization, how community engineering fosters collaboration and shared tooling, and how integrating real-user feedback directly into component testing cycles revolutionizes the development and quality assurance of frontend applications.",
   "keywords": [
-    "Community Engineering",
     "Agentic Coding",
-    "Real-User Testing",
-    "Frontend Development",
-    "Component Testing",
-    "AI in Development",
-    "User Experience"
+    "Community Engineering",
+    "Real-User Testing"
   ],
   "category": "Frontend",
   "author": "Satish"
