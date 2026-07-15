@@ -2,6 +2,7 @@ import { ResearchAgent } from "./agents/research/research.agent";
 import { PlannerAgent } from "./agents/planner/planner.agent";
 import { WriterAgent } from "./agents/writer/writer.agent";
 import { SeoAgent } from "./agents/seo/seo.agent";
+import { PublisherAgent } from "./agents/publisher/publisher.agent";
 
 async function main() {
 
@@ -20,6 +21,9 @@ async function main() {
 
     const seo = new SeoAgent();
     await seo.run();
+
+    const publisher = new PublisherAgent();
+    await publisher.run();
 }
 
 main();
