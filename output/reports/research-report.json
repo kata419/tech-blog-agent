@@ -1,6 +1,16 @@
 [
   {
     "source": "Angular Blog - Medium",
+    "title": "Reactive Flows, AI Agents, and State Events: This Week’s Angular Masterclass! ⚡",
+    "link": "https://blog.angular.dev/angular-weekly-july-17-2026-05440da623ad?source=rss----447683c3d9a3---4",
+    "published": "Fri, 17 Jul 2026 10:01:04 GMT",
+    "categories": [
+      "angular-weekly",
+      "angular"
+    ]
+  },
+  {
+    "source": "Angular Blog - Medium",
     "title": "Community Engineering, Agentic Coding, and Real-User Component Testing ️",
     "link": "https://blog.angular.dev/community-engineering-agentic-coding-and-real-user-component-testing-%EF%B8%8F-15c768142043?source=rss----447683c3d9a3---4",
     "published": "Tue, 07 Jul 2026 15:47:29 GMT",
@@ -95,16 +105,6 @@
     "link": "https://blog.angular.dev/mastering-dynamic-components-http-resources-and-ai-writing-assistants-%EF%B8%8F-eb1a773270e4?source=rss----447683c3d9a3---4",
     "published": "Mon, 13 Apr 2026 15:53:54 GMT",
     "categories": [
-      "angular"
-    ]
-  },
-  {
-    "source": "Angular Blog - Medium",
-    "title": "Local AI, Reactive Routing, and the Vitest Migration! ⚡",
-    "link": "https://blog.angular.dev/local-ai-reactive-routing-and-the-vitest-migration-bdddad0cfa96?source=rss----447683c3d9a3---4",
-    "published": "Fri, 27 Mar 2026 13:59:50 GMT",
-    "categories": [
-      "angular-weekly-newsletter",
       "angular"
     ]
   },

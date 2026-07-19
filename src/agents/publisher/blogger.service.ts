@@ -230,6 +230,7 @@ export class BloggerService {
     private async saveTokens(tokens: BloggerToken): Promise<void> {
         const tokenPath = path.resolve(process.cwd(), BLOGGER_TOKEN_FILE);
         this.tokenCache = tokens;
+        await fs.ensureDir(path.dirname(tokenPath));
         await fs.writeJson(tokenPath, tokens, { spaces: 2 });
     }
 

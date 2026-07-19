@@ -13,6 +13,9 @@ concurrency:
   group: weekly-blog-${{ github.ref }}
   cancel-in-progress: true
 
+environment:
+  name: production
+
 jobs:
   build-and-publish:
     name: Generate and publish blog content
@@ -41,11 +44,23 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
+      - name: Verify Node and npm versions
+        run: |
+          set -euo pipefail
+          echo "Node version: $(node -v)"
+          echo "npm version: $(npm -v)"
+
       - name: Install dependencies
         run: |
           set -euo pipefail
           echo "Installing npm dependencies..."
           npm ci
+
+      - name: Run typecheck
+        run: |
+          set -euo pipefail
+          echo "Running TypeScript typecheck..."
+          npm run typecheck
 
       - name: Build the TypeScript project
         run: |
@@ -72,6 +87,17 @@ jobs:
 
           node -e "const fs=require('fs'); const path='output/reports/blogger-publish-report.json'; const data=JSON.parse(fs.readFileSync(path,'utf8')); const failed=data.filter((entry)=>entry.status==='failed').length; const skipped=data.filter((entry)=>entry.status==='skipped').length; const published=data.filter((entry)=>entry.status==='published').length; console.log(JSON.stringify({ published, skipped, failed, total: data.length }, null, 2)); if (failed > 0) process.exit(1);"
 
+      - name: Write workflow summary
+        if: always()
+        run: |
+          set -euo pipefail
+          {
+            echo "## Workflow Summary";
+            echo "- Status: ${{ job.status }}";
+            echo "- Node: $(node -v)";
+            echo "- npm: $(npm -v)";
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload generated content artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -81,6 +107,7 @@ jobs:
             output/articles
             output/reports
           if-no-files-found: error
+          retention-days: 30
 
       - name: Print workflow summary
         if: always()

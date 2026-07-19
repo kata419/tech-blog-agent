@@ -23,14 +23,20 @@ export class SeoAgent {
 
         }
 
-        const metadata =
-            await this.seoService.generateMetadata(nextArticle.title);
-
-        await fs.ensureDir("output/articles/metadata");
-
         const fileName = nextArticle.title
             .replace(/[^\w]/g, "-")
             .toLowerCase();
+
+        // Read markdown content
+        const markdownContent = await fs.readFile(
+            `output/articles/markdown/${fileName}.md`,
+            "utf-8"
+        );
+
+        const metadata =
+            await this.seoService.generateMetadata(nextArticle.title, markdownContent);
+
+        await fs.ensureDir("output/articles/metadata");
 
         await fs.writeJson(
             `output/articles/metadata/${fileName}.json`,

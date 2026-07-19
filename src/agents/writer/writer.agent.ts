@@ -2,63 +2,58 @@ import fs from "fs-extra";
 import { WriterService } from "./writer.service";
 import { HtmlService } from "./html.service";
 import { pipelineContext } from "../../pipeline/pipeline-context";
+
+interface PlannedArticle {
+    title: string;
+    status: string;
+}
+
 export class WriterAgent {
+    private readonly writer = new WriterService();
+    private readonly htmlService = new HtmlService();
 
-    private writer = new WriterService();
-    private htmlService = new HtmlService();
-    async run() {
-
+    public async run(): Promise<void> {
         console.log("\n✍️ Writer Agent Started\n");
 
-        const plan = pipelineContext.plannedArticles;
+        let generatedCount = 0;
+        let failedCount = 0;
 
-        const nextArticle = plan.find(
-            (x: any) => x.status === "TODO"
-        );
+        await fs.ensureDir("output/articles/markdown");
+        await fs.ensureDir("output/articles/html");
 
-        if (!nextArticle) {
+        for (const article of pipelineContext.plannedArticles) {
+            if (article.status === "TODO") {
+                try {
+                    console.log(`Generating: ${article.title}`);
 
-            console.log("No articles to generate.");
+                    const markdown = await this.writer.generateArticle(article.title);
+                    pipelineContext.currentArticle = article;
+                    pipelineContext.markdown = markdown;
 
-            return;
+                    const fileName = article.title
+                        .replace(/[^\w]/g, "-")
+                        .toLowerCase();
 
+                    const markdownPath = `output/articles/markdown/${fileName}.md`;
+                    await fs.writeFile(markdownPath, markdown);
+                    console.log("✅ Markdown created");
+
+                    const htmlPath = `output/articles/html/${fileName}.html`;
+                    await this.htmlService.convert(markdownPath, htmlPath);
+
+                    const html = await fs.readFile(htmlPath, "utf8");
+                    pipelineContext.html = html;
+                    console.log("✅ HTML created");
+
+                    generatedCount++;
+                } catch (error) {
+                    console.error(`❌ Failed to generate article "${article.title}":`, error);
+                    failedCount++;
+                }
+            }
         }
 
-        console.log(`Generating: ${nextArticle.title}`);
-
-        const markdown =
-            await this.writer.generateArticle(nextArticle.title);
-        pipelineContext.currentArticle = nextArticle;
-        pipelineContext.markdown = markdown;
-        await fs.ensureDir("output/articles/markdown");
-
-        const fileName = nextArticle.title
-            .replace(/[^\w]/g, "-")
-            .toLowerCase();
-
-        const markdownPath =
-            `output/articles/markdown/${fileName}.md`;
-
-        await fs.writeFile(
-            markdownPath,
-            markdown
-        );
-
-        console.log("✅ Markdown created");
-
-        const htmlPath =
-            `output/articles/html/${fileName}.html`;
-
-        await this.htmlService.convert(
-            markdownPath,
-            htmlPath
-        );
-
-        const html = await fs.readFile(htmlPath, "utf8");
-
-        pipelineContext.html = html;
-
-        console.log("✅ HTML created");
+        console.log(`\nGenerated: ${generatedCount}`);
+        console.log(`Failed: ${failedCount}`);
     }
-
 }

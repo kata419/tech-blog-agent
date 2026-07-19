@@ -1,204 +1,95 @@
-# Tech Blog Agent
+﻿# Tech Blog Agent
 
-AI-powered blog automation that researches, plans, writes, optimizes, and publishes high-quality frontend development articles to Blogger.
+Tech Blog Agent is a production-oriented content automation pipeline for generating, optimizing, and publishing technical articles to Blogger. It preserves the existing architecture while combining research, planning, writing, SEO, and publishing into a reliable workflow.
 
----
+## Features
 
-# Features
+- AI-assisted research and topic planning
+- Professional article generation with rich technical structure
+- SEO-ready metadata and HTML rendering
+- Blogger draft publishing with retries and token refresh
+- GitHub Actions automation for scheduled runs
+- Artifact generation for articles and reports
 
-- 🤖 AI-powered research
-- 📝 Automatic article planning
-- ✍️ AI article generation using Gemini
-- 🎨 HTML generation
-- 🔍 SEO metadata generation
-- 📢 Blogger draft publishing
-- 🏷️ Automatic labels
-- 📊 Publishing reports
-- 🔄 OAuth token management
-- 🚀 Weekly GitHub Actions automation (coming next)
+## Pipeline
 
----
-
-# Tech Stack
-
-- Node.js 24
-- TypeScript
-- Gemini API
-- Google Blogger API
-- GitHub Actions
-- Markdown
-- HTML
-
----
-
-# Pipeline
-
-```
+```text
 Research Agent
-        │
-        ▼
-Planner Agent
-        │
-        ▼
-Writer Agent
-        │
-        ▼
-HTML Generator
-        │
-        ▼
-SEO Generator
-        │
-        ▼
-Blogger Publisher
+  → Planner Agent
+  → Writer Agent
+  → SEO Agent
+  → Blogger Publisher
 ```
 
----
+## Folder Structure
 
-# Project Structure
-
-```
+```text
 tech-blog-agent/
-│
 ├── src/
 │   ├── agents/
-│   │   ├── research/
 │   │   ├── planner/
-│   │   ├── writer/
+│   │   ├── publisher/
+│   │   ├── research/
 │   │   ├── seo/
-│   │   └── publisher/
-│   │
+│   │   └── writer/
+│   ├── config/
+│   ├── models/
 │   ├── pipeline/
-│   └── config/
-│
+│   └── prompts/
 ├── output/
 │   ├── articles/
-│   │   ├── markdown/
 │   │   ├── html/
+│   │   ├── markdown/
 │   │   └── metadata/
-│   │
 │   └── reports/
-│       ├── blogger-publish-report.json
-│       └── blogger-publish-state.json
-│
 ├── credentials/
-├── .github/
+├── .github/workflows
 └── README.md
 ```
 
----
-
-# Quick Start
-
-## Clone Repository
+## Installation
 
 ```bash
-git clone <your-repository-url>
+git clone <repository-url>
 cd tech-blog-agent
-```
-
-## Install Dependencies
-
-```bash
 npm install
 ```
 
-## Configure Environment
+## Environment Variables
 
-Create a `.env` file.
+Create a `.env` file with:
 
 ```env
 GEMINI_API_KEY=your_gemini_key
-
 BLOGGER_BLOG_ID=your_blog_id
-
 BLOGGER_CLIENT_ID=your_client_id
-
 BLOGGER_CLIENT_SECRET=your_client_secret
-
 BLOGGER_REFRESH_TOKEN=your_refresh_token
-
 BLOGGER_OAUTH_FILE=credentials/blogger-oauth.json
+SITE_URL=https://example.com
 ```
 
----
+## OAuth
 
-# Run
+The publisher uses Google OAuth for Blogger access. On the first run, it can open the browser-based desktop flow to acquire the initial token. Subsequent runs reuse the saved token and refresh it automatically when expired.
 
-```bash
-npm run dev
-```
+## Blogger Publishing
 
-The pipeline automatically executes:
+The publisher:
 
-1. Research latest topics
-2. Plan articles
-3. Generate Markdown
-4. Generate HTML
-5. Generate SEO metadata
-6. Publish Blogger Drafts
-7. Generate publishing reports
+- reads generated HTML articles
+- uses metadata for titles and labels
+- publishes drafts to Blogger
+- retries transient API errors
+- writes publish state and reports to the output folder
 
----
+## GitHub Actions
 
-# Blogger Publishing
+The workflow at [.github/workflows/weekly-blog.yml](.github/workflows/weekly-blog.yml) runs on a weekly schedule and supports manual dispatch.
 
-The publisher automatically:
+### Required GitHub Secrets
 
-- Reads HTML from
-
-```
-output/articles/html
-```
-
-- Reads metadata from
-
-```
-output/articles/metadata
-```
-
-- Publishes every unpublished article as a **Blogger Draft**
-
-- Stores publishing state in
-
-```
-output/reports/blogger-publish-state.json
-```
-
-- Generates report
-
-```
-output/reports/blogger-publish-report.json
-```
-
-Already published articles are skipped automatically.
-
----
-
-# OAuth Authentication
-
-The first execution opens Google's OAuth page.
-
-After successful authentication:
-
-- `token.json` is created automatically.
-- Future executions reuse the saved token.
-- Expired access tokens are refreshed automatically.
-
-No manual authentication is required again unless the refresh token becomes invalid.
-
----
-
-# GitHub Actions
-
-A production-ready workflow is available at:
-
-```
-.github/workflows/weekly-blog.yml
-```
-
-## GitHub Secrets
-
-Add the following secrets in your GitHub repository settings under Settings → Secrets and variables → Actions:
+Add these repository secrets under Settings → Secrets and variables → Actions:
 
 - `GEMINI_API_KEY`
 - `BLOGGER_BLOG_ID`
@@ -206,104 +97,41 @@ Add the following secrets in your GitHub repository settings under Settings → 
 - `BLOGGER_CLIENT_SECRET`
 - `BLOGGER_REFRESH_TOKEN`
 
-These values are injected into the workflow at runtime and are never printed in the logs.
-
-## How to Manually Run the Workflow
+### Manual Run
 
 1. Open the GitHub repository.
-2. Go to the Actions tab.
-3. Select the "Weekly Blog Pipeline" workflow.
-4. Click "Run workflow".
-5. Choose the branch and start the run.
+2. Go to Actions.
+3. Select Weekly Blog Pipeline.
+4. Click Run workflow.
 
-## How Scheduled Execution Works
+## Output
 
-The workflow runs automatically every Sunday at 06:00 UTC using a cron schedule. It also supports manual execution with `workflow_dispatch`.
+Generated files are stored under:
 
-## Workflow Behavior
-
-The workflow:
-
-- runs on `ubuntu-latest`
-- uses Node.js 24
-- caches npm dependencies
-- installs dependencies with `npm ci`
-- builds the project with `npm run build`
-- runs the full publishing pipeline with `npm run dev`
-- uploads `output/articles` and `output/reports` as workflow artifacts
-- fails the job if Blogger publishing reports any failed entries
-- cancels older runs when a new one starts
-
----
-
-# Output
-
-```
-output/
-
-├── articles/
-│   ├── markdown/
-│   ├── html/
-│   └── metadata/
-│
-└── reports/
-    ├── blogger-publish-report.json
-    └── blogger-publish-state.json
+```text
+output/articles/html
+output/articles/markdown
+output/articles/metadata
+output/reports
 ```
 
----
+## Security
 
-# Security
+Never commit secrets or local credentials. Keep the following excluded from version control:
 
-Never commit the following files:
-
-```
+```text
 .env
-
 token.json
-
 credentials/
 ```
 
-Ensure they remain listed in `.gitignore`.
+## Roadmap
 
----
+- Add richer article scheduling and topic prioritization
+- Add support for multi-blog publishing
+- Improve article quality scoring and editorial review
+- Expand analytics and content performance tracking
 
-# Reports
+## License
 
-Every execution generates:
-
-- Publishing report
-- Publishing state
-- Console logs
-- Blogger URLs
-- Post IDs
-
-These reports can be used for monitoring and debugging.
-
----
-
-# Roadmap
-
-- ✅ Research Agent
-- ✅ Planner Agent
-- ✅ Writer Agent
-- ✅ HTML Generator
-- ✅ SEO Generator
-- ✅ Blogger Publisher
-- ⏳ Weekly GitHub Actions
-- ⏳ Internal Linking
-- ⏳ Automatic Image Generation
-- ⏳ SEO Score Analysis
-- ⏳ Blogger Post Synchronization
-- ⏳ AI Content Quality Improvements
-
----
-
-# License
-
-MIT License
-
----
-
-Built with ❤️ using TypeScript, Gemini AI, and Google Blogger API.
+This project is distributed under the ISC license.

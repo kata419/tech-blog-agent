@@ -4,13 +4,14 @@
   "description": "AI Agent to automatically generate and publish frontend tech blogs.",
   "main": "index.js",
   "scripts": {
-  "dev": "tsx src/main.ts",
-  "build": "tsc",
-  "start": "node dist/main.js",
-  "lint": "tsc --noEmit",
-  "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-  "typecheck": "tsc --noEmit"
-},
+    "dev": "tsx src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit --ignoreDeprecations 6.0",
+    "test": "tsx tests/writer.service.test.ts",
+    "ci": "npm run build && npm run dev",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kata419/tech-blog-agent.git"

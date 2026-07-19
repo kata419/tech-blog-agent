@@ -1,6 +1,8 @@
 import fs from "fs-extra";
 import { PlannerService } from "./planner.service";
 import { pipelineContext } from "../../pipeline/pipeline-context";
+import { Article } from "../../models/article.model";
+import { RssArticle } from "./types";
 
 export class PlannerAgent {
 
@@ -10,31 +12,16 @@ export class PlannerAgent {
 
         console.log("\n🧠 Planner Agent Started\n");
 
-        const research = pipelineContext.articles;
+        const research: Article[] = pipelineContext.articles;
 
-        const existing =
-            await this.plannerService.getExistingTopics();
+        const rssArticles: RssArticle[] = research.map(article => ({
+            title: article.title,
+            link: article.link,
+            source: article.source,
+            published: new Date(article.published)
+        }));
 
-        const plan = [];
-
-        for (const article of research) {
-
-            const exists = existing.some(topic =>
-                article.title.toLowerCase().includes(topic.toLowerCase())
-            );
-
-            if (!exists) {
-
-                plan.push({
-                    title: article.title,
-                    source: article.source,
-                    priority: "HIGH",
-                    status: "TODO"
-                });
-
-            }
-
-        }
+        const plan = await this.plannerService.generatePlan(rssArticles);
 
         await fs.writeJson(
             "output/reports/content-plan.json",
